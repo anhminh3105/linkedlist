@@ -57,3 +57,43 @@ int delete_from_list(linked_list *ll, int index) {
 		} else return -1;
 	} else return -1;
 }
+int empty_list(linked_list *ll)
+{
+	if (ll != NULL) {
+		linked_list *next = ll->next;
+		free(ll);
+		if (ll->next == NULL) return 1;
+		else return empty_list(next) + 1;
+	} else return 0;
+}
+int swap_items(linked_list *f, linked_list *s) {
+	if (f != NULL && s != NULL) {
+		char *tmp;
+		tmp = f->data;
+		f->data = s->data;
+		s->data = tmp;
+		return 0;
+	} else return -1;
+}
+int sort_list(linked_list *ll)
+{
+	if (ll != NULL) {
+		linked_list *i, *j;
+		for (i = ll; i->next != NULL; i = i->next) {
+			for (j = i->next; j != NULL; j = j->next) {
+				if (strcmp(i->data, j->data) > 0) {
+					swap_items(i, j);
+				}
+			}
+		}
+		return 0;
+	} else return -1;
+}
+
+int linkedlist_status(linked_list *ll) {
+	if(ll) {
+		fflush(stdout);
+		if (ll->next == NULL) return ll->index + 1;
+		else return linkedlist_status(ll->next);
+	} else return 0;
+}
