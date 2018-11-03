@@ -217,7 +217,21 @@ TEST(display_item,add_to_list)
     EXPECT_EQ(i,6);
     EXPECT_STREQ(head->next->next->next->next->next->next->data,str6);
 }
+/***************************************************************************/
+TEST(display_list,empty)
+{
+    int result;
+    char str[15]="List Start";
 
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+
+    display_list(head);
+
+}
 /***************************************************************************/
 TEST(display_list,normal)
 {
@@ -265,10 +279,60 @@ TEST(display_list,single)
     EXPECT_EQ(1, display_list(head));
 }
 /***************************************************************************/
-TEST(display_list,empty)
+TEST(swap,normal_1)
 {
-    int result;
+    char str1[10]="zero";
+    char str2[10]="first";
+    linked_list *l_1 = (struct linked_list*) malloc(sizeof(linked_list));  
+    linked_list *l_2 = (struct linked_list*) malloc(sizeof(linked_list));
+    l_1->next=NULL;
+    l_1->data=str1;
+    l_1->index=0;
+    l_2->next=NULL;
+    l_2->data=str2;
+    l_2->index=1;
+    
+    EXPECT_EQ(0, swap_items(l_1, l_2));
+    EXPECT_STREQ(l_1->data, str2);
+    EXPECT_STREQ(l_2->data, str1);
+}
+/***************************************************************************/
+TEST(swap,empty)
+{
+    char str1[10]="zero";
+    char str2[10]="first";
+    linked_list *l_1 = NULL;  
+    linked_list *l_2 = NULL;
+
+    EXPECT_EQ(-1, swap_items(l_1, l_2));
+}
+/***************************************************************************/
+TEST(swap,normal_2)
+{
+    char str1[10]="zero";
+    char str2[10]="first";
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str1;
+    head->index=0;
+    add_to_list(head, str2);
+    
+    EXPECT_EQ(0, swap_items(head, head->next));
+    EXPECT_STREQ(head->data, str2);
+    EXPECT_STREQ(head->next->data, str1);
+}
+/***************************************************************************/
+TEST(sort,normal)
+{
     char str[15]="List Start";
+    char str1[10]="zero";
+    char str2[10]="first";
+    char str3[10]="second";
+    char str4[10]="third";
+    char str5[10]="fourth";
+    char str6[10]="fifth";
+    int i;
 
     linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
 
@@ -276,8 +340,54 @@ TEST(display_list,empty)
     head->data=str;
     head->index=0;
 
-    display_list(head);
+    i=add_to_list(head,str1);
+    i=add_to_list(head,str2);
+    i=add_to_list(head,str3);
+    i=add_to_list(head,str4);
+    i=add_to_list(head,str5);
+    i=add_to_list(head,str6);
 
+    printf("lists:\n");
+    display_list(head);
+    EXPECT_EQ(0, sort_list(head));
+    EXPECT_STREQ(head->data,str);
+    EXPECT_STREQ(head->next->data,str6);
+    EXPECT_STREQ(head->next->next->data,str2);
+    EXPECT_STREQ(head->next->next->next->data,str5);
+    EXPECT_STREQ(head->next->next->next->next->data,str3);
+    EXPECT_STREQ(head->next->next->next->next->next->data,str4);
+    EXPECT_STREQ(head->next->next->next->next->next->next->data,str1);
+
+    printf("list after sorted:\n");
+    display_list(head);
+}
+/***************************************************************************/
+TEST(sort,empty)
+{
+    linked_list *l_1 = NULL;  
+    EXPECT_EQ(-1, sort_list(l_1));
+}
+/***************************************************************************/
+TEST(sort,single)
+{
+    char str[15]="List Start";
+
+    int i;
+
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+
+
+    printf("lists:\n");
+    display_list(head);
+    EXPECT_EQ(0, sort_list(head));
+    EXPECT_STREQ(head->data,str);
+
+    printf("list after sorted:\n");
+    display_list(head);
 }
 /***************************************************************************/
 TEST(delete,normal)
@@ -370,5 +480,104 @@ TEST(delete,single) {
 TEST(delete, empty) {
     linked_list *h = NULL;
     EXPECT_EQ(-1, delete_from_list(h, 0));
+
+}
+/***************************************************************************/
+TEST(empty,normal) {
+    char str[15]="List Start";
+    char str1[10]="zero";
+    char str2[10]="first";
+    char str3[10]="second";
+    char str4[10]="third";
+    char str5[10]="fourth";
+    char str6[10]="fifth";
+    int i;
+
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+
+    i=add_to_list(head,str1);
+    i=add_to_list(head,str2);
+    i=add_to_list(head,str3);
+    i=add_to_list(head,str4);
+    i=add_to_list(head,str5);
+    i=add_to_list(head,str6);
+    printf("lists:\n");
+    display_list(head);
+    EXPECT_EQ(7, empty_list(head));
+    printf("list after deleted:\n");
+    display_list(head);
+}
+/***************************************************************************/
+TEST(empty,single) {
+    char str[15]="List Start";
+    int i;
+
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+
+    printf("lists:\n");
+    display_list(head);
+    EXPECT_EQ(1, empty_list(head));
+    printf("list after deleted:\n");
+    display_list(head);
+}
+
+/***************************************************************************/
+TEST(empty,empty) {
+    linked_list *head = NULL;  
+    EXPECT_EQ(0, empty_list(head));
+}
+
+
+/***************************************************************************/
+TEST(status, normal)
+{
+    char str[15]="List Start";
+    char str1[10]="zero";
+    char str2[10]="first";
+    char str3[10]="second";
+    char str4[10]="third";
+    char str5[10]="fourth";
+    char str6[10]="fifth";
+    int i;
+    int status;
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+
+    i=add_to_list(head,str1);
+    i=add_to_list(head,str2);
+    i=add_to_list(head,str3);
+    i=add_to_list(head,str4);
+    i=add_to_list(head,str5);
+    i=add_to_list(head,str6);
+    status = linkedlist_status(head);
+    EXPECT_EQ(7, status);
+}
+/***************************************************************************/
+TEST(status, one_node) {
+    char str[15]="List Start";
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
+    int status;
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+    status = linkedlist_status(head);
+    EXPECT_EQ(1, status);
+
+}
+/***************************************************************************/
+TEST(status, empty) {
+    linked_list *h = NULL;
+    EXPECT_EQ(0, linkedlist_status(h));
 
 }
