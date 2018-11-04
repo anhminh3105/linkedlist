@@ -17,3 +17,6 @@ struct linked_list{
 
 #### The `additional` branch currently contains 4 more functions which satisfly the following requirements:
 ![image](https://user-images.githubusercontent.com/18170028/47956168-16377380-dfa9-11e8-926e-0676546c389b.png)
+
+#### *The `bidir` branch modifies the structure of `struct linked_list` to be bidirectional and the functions to handle bidirectional situations.
+

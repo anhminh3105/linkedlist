@@ -2,6 +2,7 @@ struct linked_list {
 	char *data;
 	int index; /* normally not used with Linked Lists, just for exercise */
 	struct linked_list *next;
+	struct linked_list *previous;
 };
 
 int add_to_list(linked_list *ll, char *s);
