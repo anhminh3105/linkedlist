@@ -22,6 +22,7 @@ branches:
   only:
     - master
     - student
+    - bidir
 notifications:
   recipients:
     - jukka.matila@vamk.fi
