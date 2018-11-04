@@ -42,8 +42,9 @@ int display_list(linked_list *ll) {
 				display_cnt++;
 			ll = ll->next;
 		} while (ll != NULL);
-	}
 	return display_cnt;
+	}
+	return -1;
 }
 
 linked_list *search_from_list(linked_list *ll, char *s) {
@@ -80,7 +81,10 @@ int delete_from_list(linked_list *ll, int index) {
 				current = current->next;
 				free(previous);
 				if (current == NULL) return 1;
-				else current->index -= 1;
+				else {
+					current->index -= 1;
+					current->previous = NULL;
+				}
 			} else {
 				previous->next = current->next;
 				free(current);
@@ -109,11 +113,17 @@ int empty_list(linked_list *ll)
 			free(previous);
 			free_cnt++;
 		}
+		return free_cnt;
 	}
-	return free_cnt;
+	return -1;
 }
 int swap_items(linked_list *f, linked_list *s) {
 	if (f != NULL && s != NULL) {
+		linked_list *head1 = f;
+		linked_list *head2 = s;
+		if (head1->previous != NULL) while (head1->previous != NULL) head1 = head1->previous;
+		if (head2->previous != NULL) while (head2->previous != NULL) head2 = head2->previous;
+		if (head1 != head2) return -1;
 		char *tmp;
 		tmp = f->data;
 		f->data = s->data;

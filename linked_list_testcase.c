@@ -258,7 +258,7 @@ TEST(display_list,single)
     EXPECT_EQ(1, display_list(head));
 }
 /***************************************************************************/
-TEST(swap,normal_1)
+TEST(swap,normal_from_different_lists)
 {
     char str1[10]="zero";
     char str2[10]="first";
@@ -273,9 +273,7 @@ TEST(swap,normal_1)
     l_2->data=str2;
     l_2->index=1;
     
-    EXPECT_EQ(0, swap_items(l_1, l_2));
-    EXPECT_STREQ(l_1->data, str2);
-    EXPECT_STREQ(l_2->data, str1);
+    EXPECT_EQ(-1, swap_items(l_1, l_2));
 }
 /***************************************************************************/
 TEST(swap,empty)
@@ -563,7 +561,7 @@ TEST(empty,single) {
 /***************************************************************************/
 TEST(empty,empty) {
     linked_list *head = NULL;  
-    EXPECT_EQ(0, empty_list(head));
+    EXPECT_EQ(-1, empty_list(head));
 }
 
 
